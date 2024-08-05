@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const classSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -7,4 +7,5 @@ const classSchema = new mongoose.Schema({
 });
 
 const Class = mongoose.model('Class', classSchema);
-module.exports = Class;
+
+export default Class;

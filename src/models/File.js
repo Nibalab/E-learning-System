@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const fileSchema = new mongoose.Schema({
   class: { type: mongoose.Schema.Types.ObjectId, ref: 'Class', required: true },
@@ -8,4 +8,5 @@ const fileSchema = new mongoose.Schema({
 });
 
 const File = mongoose.model('File', fileSchema);
-module.exports = File;
+
+export default File;

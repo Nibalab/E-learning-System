@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const withdrawalSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -8,4 +8,5 @@ const withdrawalSchema = new mongoose.Schema({
 });
 
 const Withdrawal = mongoose.model('Withdrawal', withdrawalSchema);
-module.exports = Withdrawal;
+
+export default Withdrawal;

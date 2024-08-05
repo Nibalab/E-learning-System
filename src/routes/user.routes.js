@@ -1,4 +1,3 @@
-// routes/user.routes.js
 import express from 'express';
 import { register, login } from '../controllers/user.controller.js';
 import { authenticateToken } from '../middleware/auth.js';
