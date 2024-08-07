@@ -14,7 +14,7 @@ router.post('/login', login);
 
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
-    // Accessing the user info attached by the authenticateToken middleware
+    
     const user = req.user;
     res.status(200).json({ user });
   } catch (error) {
