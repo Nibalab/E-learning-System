@@ -3,6 +3,7 @@ import { authenticateToken } from '../middleware/auth.js';
 import { authorizeRole } from '../middleware/roles.js';
 import Withdrawal from '../models/Withdrawal.js';
 import Enrollment from '../models/Enrollment.js';
+import { listWithdrawals, requestWithdrawal, updateWithdrawalStatus } from '../controllers/withdrawal.controller.js';
 
 const router = express.Router();
 
@@ -46,5 +47,7 @@ router.patch('/:id/status', authenticateToken, authorizeRole('admin'), async (re
     res.status(500).json({ message: 'Error updating withdrawal status', error: error.message });
   }
 });
+
+router.get('/list', authenticateToken, authorizeRole('admin'), listWithdrawals);
 
 export default router;

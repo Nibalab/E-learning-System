@@ -2,6 +2,10 @@ import File from '../models/File.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url); // Define __filename
+const __dirname = path.dirname(__filename); // Define __dirname
 
 
 const storage = multer.diskStorage({
@@ -20,20 +24,24 @@ export const upload = multer({ storage }).single('file');
 
 
 export const uploadFile = async (req, res) => {
-  try {
-    const { classId } = req.body;
-    const { filename, path: filePath } = req.file;
-
-    const newFile = new File({
-      class: classId,
-      filename,
-      path: filePath
-    });
-
-    await newFile.save();
-
+    try {
+      const { classId } = req.body; // Make sure classId is correctly extracted
+      if (!classId) {
+        return res.status(400).json({ message: 'Class ID is required' });
+      }
+  
+      const { filename, path: filePath } = req.file;
+      const newFile = new File({
+        class: classId, // Ensure this field is populated
+        filename,
+        path: filePath,
+      });
+  
+      await newFile.save();
+      
     res.status(201).json({ message: 'File uploaded successfully', file: newFile });
   } catch (error) {
+    console.error('Error during file upload:', error);
     res.status(500).json({ message: 'Error uploading file', error: error.message });
   }
 };

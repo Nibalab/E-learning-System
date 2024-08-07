@@ -1,0 +1,444 @@
+stack(LIFO)
+insert = push
+delete = POP
+
+class Stack:
+    def __init__(self):
+        self.data = []
+
+    def push(self, node):
+        self.data.append(node)
+    
+    def pop(self):
+        self.data.pop()
+
+    def print_stack(self):
+        print(self.data)
+
+Queue(FIFO)
+insert=enqueue
+delete= dequeue
+
+class Queue:
+    def __init__(self):
+        self.data = deque()
+
+    def enqueue(self, node):
+        self.data.append(node)
+    
+    def dequeue(self):
+        self.data.popleft()
+
+    def print_queue(self):
+        print(self.data)
+
+
+Linked lists: search(O(n)) insert(O(1)) delete (O(1)) if known position eza ma ma3e l position bet sir o(n) 
+(doubly)
+class Node:
+  def __init__(self, data):
+      self.data = data
+      self.next = None
+      self.prev = None
+
+class LinkedList:
+  def __init__(self):
+      self.head = None
+
+  def search(self, target):
+      current = self.head
+      while current:
+          if current.data ==target:
+              return current
+          current = current.next
+      return None
+  
+  def insert_at_end(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+        else:
+            last = self.head
+            while last.next:
+                last = last.next
+            last.next = new_node
+            new_node.prev = last
+
+    def insert_at_beginning(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+        else:
+            new_node.next = self.head
+            self.head.prev = new_node
+            self.head = new_node
+
+    def insert_after(self, prev_node, data):
+        if prev_node is None:
+            print("Previous node cannot be None")
+            return
+        new_node = Node(data)
+        new_node.next = prev_node.next
+        new_node.prev = prev_node
+        if prev_node.next:
+            prev_node.next.prev = new_node
+        prev_node.next = new_node
+
+ #if i know the posotion
+  def delete(self, node):
+      if node.prev is not None:
+         node.prev.next = node.next
+      else:
+         self.head = node.next
+
+      if node.next is not None:
+         node.next.prev = node.prev
+
+  #if i don't have the reference of the node 
+   def delete(self, value):
+        current = self.head
+        while current:
+            if current.data == value:
+                if current.prev is not None:
+                    current.prev.next = current.next
+                else:
+                    self.head = current.next
+
+                if current.next is not None:
+                    current.next.prev = current.prev
+                return
+            current = current.next
+
+
+  def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=' <-> ')
+            current = current.next
+        print('None')
+
+
+
+Dictionaries 
+def hashing_by_division(k, m):
+    return k % m
+
+
+def main():
+    dictionary = {
+        'a': 1,
+        'b': 9,
+        'c': 'nebraska',
+        'd': True
+    }
+
+    print(dictionary)
+
+    # insert 
+    dictionary['e'] = False
+    print(dictionary)
+
+    # delete 
+    del dictionary['a']
+    print(dictionary)
+
+    # search
+    print(dictionary['c'])
+
+    # key = 50, table size = 13
+    k = 50
+    m = 13
+    print(f'hash of 50 with table size 13 --> {hashing_by_division(k, m)}')
+
+
+main()
+
+
+DFS
+
+def dfs(graph, node):
+    visited = []
+    stack = []
+    
+    visited.append(node)
+    stack.append(node)
+
+    while stack:
+       s = stack.pop(0)
+       print(s, end= " ")
+
+       for n in reversed(graph[s]):
+           if n not in visited:
+              visited.append(n)
+              stack.append(n)
+
+# Example usage:
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+dfs(graph, 'A')
+
+dfs=> stack Last in First out (LIFO)
+
+time complexity: O(V+E)
+
+bfs=> queue first in first out (FIFO)
+
+
+
+
+BFS
+def bfs(graph, node):
+    visited = []
+    queue = []
+    
+    visited.append(node)
+    queue.append(node)
+
+    while queue:
+       s = queue.pop(0)
+       print(s, end= " ")
+
+       for n in graph[s]:
+           if n not in visited:
+              visited.append(n)
+              queue.append(n)
+
+# Example usage:
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+bfs(graph, 'A')
+
+binary search (time complexity O(logn))
+
+def binary_search(arr, target):
+    left = 0
+    right = len(arr) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1  # Target not found
+
+# Example usage:
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+target = 7
+result = binary_search(arr, target)
+print(result)  # Output: 6 (index of target in the array)
+
+O(1)< O(logn) < O(n) < O (nlogn) < O(n^2) < O(2^n) < o(n!)
+
+
+Merge Sort => O(nlogn) divide and quonquer
+
+def merge_sort(list):
+    length = len(list)
+
+    if length == 1:
+        return list
+
+    mid = length // 2
+
+    left = merge_sort(list[:mid])    // recursive
+    right = merge_sort(list[mid:])  // recursive
+
+    return merge(left, right)
+
+
+def merge(left, right):
+    output = []
+    i = j = 0
+
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            output.append(left[i])
+            i += 1
+        else:
+            output.append(right[j])
+            j += 1
+
+    output.extend(left[i:])
+    output.extend(right[j:])
+
+    return output
+
+Quick sort => O(n^2)
+
+def partition(list, low, high):
+    i = low
+    pivot = list[high]
+
+    for j in range(low, high):
+        if list[j] <= pivot:
+            list[i], list[j] =  list[j], list[i]
+            i += 1
+
+    list[i], list[high] = list[high] ,list[i]
+
+    return i
+
+
+def quick_sort(list, low, high):
+    if low < high:
+        partition_index = partition(list, low, high)
+        quick_sort(list, low, partition_index - 1)
+        quick_sort(list, partition_index + 1, high)
+
+
+bubble sort ==> O(n^2)
+def bubble_sort(list):
+    n = len(list)
+
+    for i in range(n-1):
+        for j in range(n-1):
+            if list[j] > list[j+1]: 
+                tmp = list[j]
+                list[j] = list[j+1]
+                list[j+1] = tmp
+
+    return list
+
+
+
+insertion sort ==> O(n^2)
+def insertion_sort(list):  
+    for i in range(1, len(list)):  
+        current = list[i]  
+
+        j = i - 1  
+        while j >= 0 and current < list[j]:  
+            list[j+1] = list[j]  
+            j -= 1  
+        list[j+1] = current  
+
+    return list
+
+def insertion_sort_recursive(arr, n=None):
+    if n is None:
+        n = len(arr)
+        
+    # Base case: If the array has only one element, it is already sorted
+    if n <= 1:
+        return
+
+    # Recursively sort the first n-1 elements
+    insertion_sort_recursive(arr, n - 1)
+
+    # Insert the nth element into its correct position
+    last = arr[n - 1]
+    j = n - 2
+
+    # Move elements of arr[0..n-2], that are greater than the last element,
+    # to one position ahead of their current position
+    while j >= 0 and arr[j] > last:
+        arr[j + 1] = arr[j]
+        j -= 1
+    arr[j + 1] = last
+
+
+selection sort ==>O(n^2)
+def selection_sort(list):
+    n = len(list)
+
+    for i in range(n-1): 
+        min = i
+
+        for j in range(i+1, n):
+            if list[j] < list[min]:
+                min = j
+
+        if min != i:
+            temp = list[i]
+            list[i] = list[min]
+            list[min] = temp
+
+    return list
+
+def selection_sort_recursive(arr, start=0):
+    # Base case: If we've reached the end of the list, return
+    if start >= len(arr) - 1:
+        return
+
+    # Find the minimum element in the unsorted part of the list
+    min_idx = start
+    for i in range(start + 1, len(arr)):
+        if arr[i] < arr[min_idx]:
+            min_idx = i
+
+    # Swap the found minimum element with the first element
+    arr[start], arr[min_idx] = arr[min_idx], arr[start]
+
+    # Recursively call selection sort on the remaining unsorted part of the list
+    selection_sort_recursive(arr, start + 1)
+
+
+ heap sort => o(nlogn)
+
+def left(i):
+    return 2*i
+
+
+def right(i):
+    return 2*i + 1
+
+
+def parent(i):
+    return i//2
+
+
+def max_heapify(a, heap_size, i):
+    l = left(i)
+    r = right(i)
+
+    largest = i 
+
+    if l < heap_size and a[l] > a[i]:
+        largest = l
+    
+    if r < heap_size and a[r] > a[largest]:
+        largest = r 
+    
+    if largest != i:
+        # swap elements
+        a[i], a[largest] = a[largest], a[i]
+        max_heapify(a, heap_size, largest)
+
+
+def build_max_heap(a):
+    heap_size = len(a)
+
+    for i in range(heap_size//2, 0, -1):
+        max_heapify(a, heap_size, i)
+
+
+def heap_sort(a):
+    build_max_heap(a)
+
+    for i in range(len(a)-1, 1, -1):
+        # swap elements
+        a[i], a[1] = a[1], a[i]
+
+        # after the swap the last element is now sorted, but the new root may break the max-heap condition
+        # fix it by calling max-heapify with a smaller heap size (sorted elements are out of the picture)
+        max_heapify(a, i, 1)
+
+

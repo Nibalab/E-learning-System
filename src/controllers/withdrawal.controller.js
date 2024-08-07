@@ -1,3 +1,4 @@
+// controllers/withdrawal.controller.js
 import Withdrawal from '../models/Withdrawal.js';
 import Enrollment from '../models/Enrollment.js';
 
@@ -37,5 +38,14 @@ export const updateWithdrawalStatus = async (req, res) => {
     res.status(200).json({ message: 'Withdrawal status updated', withdrawal });
   } catch (error) {
     res.status(500).json({ message: 'Error updating withdrawal status', error: error.message });
+  }
+};
+
+export const listWithdrawals = async (req, res) => {
+  try {
+    const withdrawals = await Withdrawal.find().populate('class user');
+    res.status(200).json({ withdrawals });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching withdrawals', error: error.message });
   }
 };
